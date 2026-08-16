@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Financial Statement Analyzer</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="index.css">
+    
+    <!-- External Libraries -->
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-statistics@7.8.7/dist/simple-statistics.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.1.0/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+<body>
+    <!-- App Container -->
+    <main id="app-container">
+        
+        <!-- Upload Section -->
+        <section id="upload-section">
+            <div id="upload-zone">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <h2>Drop your Screener.in Excel export here</h2>
+                <p>or click to browse</p>
+                <input type="file" id="file-input" accept=".xlsx,.xls" hidden>
+                <p class="info-note">Your data stays in your browser. Nothing is uploaded to any server.</p>
+            </div>
+        </section>
+
+        <!-- Company Header (initially hidden) -->
+        <header id="company-header" style="display: none;">
+            <div class="header-content">
+                <div>
+                    <h1 id="company-name">Company Name</h1>
+                    <p id="analysis-period" class="text-secondary">Analysis Period</p>
+                </div>
+                <button id="new-file-btn">Upload New File</button>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <nav class="tab-nav">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="income">Income Statement</button>
+                <button class="tab-btn" data-tab="balance">Balance Sheet</button>
+                <button class="tab-btn" data-tab="cashflow">Cash Flow</button>
+                <button class="tab-btn" data-tab="redflags">Red Flags</button>
+                <button class="tab-btn" data-tab="forecast">Forecast</button>
+                <button class="tab-btn" data-tab="quarterly">Quarterly</button>
+            </nav>
+        </header>
+
+        <!-- Analysis Sections (initially hidden) -->
+        <section id="analysis-sections" style="display: none;">
+            
+            <!-- Overview Tab -->
+            <div id="tab-overview" class="tab-content active">
+                <div class="overview-grid">
+                    <div id="overview-health-score" class="card"></div>
+                    <div id="overview-key-metrics" class="card"></div>
+                    <div id="overview-quick-charts" class="card"></div>
+                    <div id="overview-alerts" class="card"></div>
+                </div>
+            </div>
+
+            <!-- Income Statement Tab -->
+            <div id="tab-income" class="tab-content">
+                <div id="income-insights"></div>
+                <div id="income-charts-container" class="charts-grid"></div>
+                <div id="income-table-container" class="table-container card"></div>
+            </div>
+
+            <!-- Balance Sheet Tab -->
+            <div id="tab-balance" class="tab-content">
+                <div id="balance-insights"></div>
+                <div id="balance-charts-container" class="charts-grid"></div>
+                <div id="balance-table-container" class="table-container card"></div>
+            </div>
+
+            <!-- Cash Flow Tab -->
+            <div id="tab-cashflow" class="tab-content">
+                <div id="cashflow-insights"></div>
+                <div id="cashflow-charts-container" class="charts-grid"></div>
+                <div id="cashflow-table-container" class="table-container card"></div>
+            </div>
+
+            <!-- Red Flags Tab -->
+            <div id="tab-redflags" class="tab-content">
+                <div id="redflags-summary"></div>
+                <div id="redflags-list" class="redflag-grid"></div>
+            </div>
+
+            <!-- Forecast Tab -->
+            <div id="tab-forecast" class="tab-content">
+                <div id="forecast-controls" class="card"></div>
+                <div id="forecast-scenarios" class="scenario-grid"></div>
+                <div id="forecast-charts-container" class="charts-grid"></div>
+                <div id="forecast-tables-container" class="table-container card"></div>
+            </div>
+
+            <!-- Quarterly Tab -->
+            <div id="tab-quarterly" class="tab-content">
+                <div id="quarterly-insights"></div>
+                <div id="quarterly-charts-container" class="charts-grid"></div>
+                <div id="quarterly-table-container" class="table-container card"></div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>Financial Statement Analyzer &middot; Powered by Screener.in Data &middot; For Research Purposes Only</p>
+    </footer>
+
+    <!-- Overlays -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner"></div>
+        <p>Analyzing financial statements...</p>
+    </div>
+
+    <div id="error-toast" style="display: none;">
+        <p id="error-message"></p>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="parser.js"></script>
+    <script src="analyzer.js"></script>
+    <script src="charts.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
